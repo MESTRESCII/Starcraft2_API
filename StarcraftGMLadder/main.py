@@ -14,7 +14,12 @@ def main():
     teste.run_normalize_json()
     teste.run_refactor_table()
     teste.run_build_new_table()
-    teste.run_table_generator()
+    print('America Table')
+    teste.run_table_generatorAM()
+    print('Europe Table')
+    teste.run_table_generatorEU()
+    print('Korea Table')
+    teste.run_table_generatorKR()
     print('Done!')
 
 
