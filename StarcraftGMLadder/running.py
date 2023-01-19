@@ -9,6 +9,8 @@ from buildFinalTable import FinalTable
 
 
 # Variables
+region = ['us', 'eu', 'kr']
+regionID = [1, 2, 3]
 
 
 class Running:
@@ -77,11 +79,37 @@ class Running:
         self.buildTableKr = self.buildNewTable.build_table()
         self.refactKr = self.buildNewTable.refactor_table()
 
-    def run_table_generator(self):
+    def run_table_generatorAM(self):
         self.tableAm = self.generatetable.create_final_table(self.refactAm, self.refactTableAm)
-        self.tableEu = self.generatetable.create_final_table(self.refactEu, self.refactTableEu)
-        self.tableKr = self.generatetable.create_final_table(self.refactKr, self.refactTableKr)
-
         self.createTableAm = self.generatetable.write_table('/GMAmerica')
+
+
+    def run_table_generatorEU(self):
+        self.tableEu = self.generatetable.create_final_table(self.refactEu, self.refactTableEu)
         self.createTableEu = self.generatetable.write_table('/GMEurope')
+
+
+    def run_table_generatorKR(self):
+        self.tableKr = self.generatetable.create_final_table(self.refactKr, self.refactTableKr)
         self.createTableKr = self.generatetable.write_table('/GMKorea')
+
+
+print('Running Api')
+teste = Running()
+teste.run_api()
+print('Getting Token')
+teste.run_token()
+print('Building Tables')
+teste.run_grandmaster()
+teste.run_refactor_json()
+print('Refactoring Tables')
+teste.run_normalize_json()
+teste.run_refactor_table()
+teste.run_build_new_table()
+print('America Table')
+teste.run_table_generatorAM()
+print('Europe Table')
+teste.run_table_generatorEU()
+print('Korea Table')
+teste.run_table_generatorKR()
+print('Done!')
