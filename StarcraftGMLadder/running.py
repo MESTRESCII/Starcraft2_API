@@ -8,11 +8,6 @@ from newTable import BuildNewTable
 from buildFinalTable import FinalTable
 
 
-# Variables
-region = ['us', 'eu', 'kr']
-regionID = [1, 2, 3]
-
-
 class Running:
 
     def __init__(self):
@@ -30,15 +25,19 @@ class Running:
         self.access = self.api.create_access_token()
 
     def run_token(self):
+        self.run_api()
         self.token = self.getJson.jsons(self.api.response.json(), self.api.get_clientID(), self.api.get_clientPW())
         self.getToken = self.getToken.get_json_token(self.token)
 
     def run_grandmaster(self):
+        self.run_token()
         self.getGmAm = self.grandmaster.get_grandmaster(self.getToken, region='us', regionID=1)
         self.getGmEu = self.grandmaster.get_grandmaster(self.getToken, region='eu', regionID=2)
         self.getGmKr = self.grandmaster.get_grandmaster(self.getToken, region='kr', regionID=3)
 
+
     def run_refactor_json(self):
+        self.run_grandmaster()
         self.jsonAm = self.refactor.get_json(self.getGmAm)
         self.writeAm = self.refactor.write_json(self.jsonAm,
                                                 name=self.path + '/America.json')
@@ -51,7 +50,9 @@ class Running:
         self.writeKr = self.refactor.write_json(self.jsonKr,
                                                 name=self.path  + '/Korea.json')
 
+
     def run_normalize_json(self):
+        self.run_refactor_json()
         self.normalizeAm = self.refactor.normalize_json(self.getGmAm,
                                                         name=self.path+'/America.json')
 
@@ -62,11 +63,13 @@ class Running:
                                                         name=self.path+'/Korea.json')
 
     def run_refactor_table(self):
+        self.run_normalize_json()
         self.refactTableAm = self.refactorTable.refactor_table(self.normalizeAm)
         self.refactTableEu = self.refactorTable.refactor_table(self.normalizeEu)
         self.refactTableKr = self.refactorTable.refactor_table(self.normalizeKr)
 
     def run_build_new_table(self):
+        self.run_refactor_table()
         self.setBuildAm =  self.buildNewTable.set_table(self.path + '/America.json')
         self.buildTableAm = self.buildNewTable.build_table()
         self.refactAm = self.buildNewTable.refactor_table()

@@ -19,7 +19,7 @@ class BlizzardAPI:
         return self.region
 
     def create_access_token(self):
-        url = (f"https://{self.region}.battle.net/oauth/token")
+        url = f"https://{self.region}.battle.net/oauth/token"
         body = {"grant_type": 'client_credentials'}
         auth = HTTPBasicAuth(self.__clientID, self.__clientPW)
         self.response = requests.post(url, data=body, auth=auth)
